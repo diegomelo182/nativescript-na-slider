@@ -163,7 +163,7 @@ The following events can be observed with `on()` and `addEventListener()`:
 
 #### slide
 
-Fires when sliding.
+Fired when sliding.
 
 ##### Event data
 
@@ -173,9 +173,11 @@ Fires when sliding.
 | `object`         | Object | Gets the `<NASlider>` instance.          |
 | `scrollPosition` | Float  | Gets the current scroll position. Will be either the horizontal or vertical position depending on orientation of the `<NASlider>` instance. |
 
+------
+
 #### slideChange
 
-Fires when the `<NASlider>` instance has changed slide.
+Fired when the `<NASlider>` instance has changed slide.
 
 ##### Event data
 
