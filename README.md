@@ -112,6 +112,16 @@ Insert new slide with optional properties. Returns a *Promise* with the new slid
 
 ---------
 
+#### removeAllSlides
+
+`removeAllSlides(): Promise`
+
+Removes all slides. Returns a *Promise*.
+
+*Will not work if `<NASlider>` instance is maintained by a Repeater.*
+
+------
+
 #### removeSlide
 
 `removeSlide(slide: <NASliderSlide>): Promise`
@@ -174,3 +184,25 @@ Fires when the `<NASlider>` instance has changed slide.
 | `eventName` | String            | Gets the name of the event.     |
 | `object`    | Object            | Gets the `<NASlider>` instance. |
 | `slide`     | `<NASliderSlide>` | Gets the current visible slide. |
+
+## Known issues
+
+- No Android compatibility, yet.
+
+## History
+
+### Version 1.0.2 (February 6, 2017)
+
+- Documentation fixes.
+
+### Version 1.0.0 (February 6, 2017)
+
+- First release!
+
+## Credits
+
+- [NordlingArt](https://github.com/NordlingArt)
+
+## License
+
+[MIT](/LICENSE) - for {N} version 2.5.0+
