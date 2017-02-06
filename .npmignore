@@ -1,0 +1,5 @@
+demo/
+.vscode/
+*.png
+*.log
+.DS_Store

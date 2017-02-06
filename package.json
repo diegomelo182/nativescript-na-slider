@@ -1,0 +1,40 @@
+{
+  "name": "nativescript-na-slider",
+  "version": "1.0.0",
+  "description": "A NativeScript slider plugin",
+  "main": "slider.js",
+  "nativescript": {
+    "platforms": {
+      "ios": "1.7.0"
+    },
+    "tns-ios": {
+      "version": "2.5.0"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nordlingart/nativescript-na-slider.git"
+  },
+  "keywords": [
+    "NativeScript",
+    "Slider",
+    "Slideshow",
+    "Paged views",
+    "ScrollView",
+    "Nordling Art"
+  ],
+  "author": {
+    "name": "Filip Nordling",
+    "email": "nordlingfilip@gmail.com"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "c7e662a2781c74949c9c941c62077cf66b97b000",
+  "bugs": {
+    "url": "https://github.com/nordlingart/nativescript-na-slider/issues"
+  },
+  "homepage": "https://github.com/nordlingart/nativescript-na-slider#readme",
+  "dependencies": {
+    "tns-core-modules": "^2.5.0"
+  }
+}

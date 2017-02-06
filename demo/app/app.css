@@ -1,0 +1,20 @@
+﻿Label { text-align: center; }
+Label.title {
+  margin-top: 20;
+  font-size: 20;
+  opacity: 0.5;
+  vertical-align: top;
+}
+
+Button {
+  height: 32;
+  margin-top: 10;
+  padding: 8 16;
+  background-color: #239790;
+  color: #ffffff;
+  font-size: 12;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-radius: 16;
+  horizontal-align: center;
+}

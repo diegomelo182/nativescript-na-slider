@@ -1,0 +1,6 @@
+*.log
+demo/lib/
+demo/node_modules/
+demo/platforms/
+.vscode/
+.DS_Store
