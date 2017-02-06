@@ -28,9 +28,9 @@ Slides can be added statically inside the XML as below:
 </Page>
 ```
 
-#### Using <Repeater>
+#### Using `<Repeater>`
 
-For a more dynamic slider, a <Repeater> can be used:
+For a more dynamic slider, a `<Repeater>` can be used:
 
 ```xml
 <Page xmlns:NASlider="nativescript-na-slider">
@@ -47,30 +47,30 @@ For a more dynamic slider, a <Repeater> can be used:
 </Page>
 ```
 
-This way, a slider can simply be set up with an `ObservableArray`. The <NASlider> will act as the Repeater's layout inside <Repeater.itemsLayout>, while an <NASliderSlide> becomes the wrapper of <Repeater.itemTemplate>.
+This way, a slider can simply be set up with an `ObservableArray`. The `<NASlider>` will act as the Repeater's layout inside `<Repeater.itemsLayout>`, while an `<NASliderSlide>` becomes the wrapper of `<Repeater.itemTemplate>`.
 
 ### Properties
 
-#### <NASlider>
+#### `<NASlider>`
 
-| Property                        | Type                              | Description                              |
-| ------------------------------- | --------------------------------- | :--------------------------------------- |
-| `bounce`                        | Boolean *(default: false)*        | Gets or sets scroll bouncing effect.     |
-| `currentSlide`                  | View<NASliderSlide> *(read-only)* | Gets the current slide view.             |
-| `currentSlideIndex`             | Integer *(read-only)*             | Gets the current slide index.            |
-| `forceFirstIndicatorVisibility` | Boolean *(default: false)*        | Gets or sets the visibility of the first indicator if there is only one slide available. |
-| `showIndicators`                | Boolean *(default: true)*         | Gets or sets the indicators' visibility. |
-| `indicatorBorderColor`          | String *(default: "#404040")*     | Gets or sets indicators' border color.   |
-| `indicatorBorderWidth`          | Float *(default: 0)*              | Gets or sets indicators' border width.   |
-| `indicatorHorizontalAlignment`  | String *(default: null)*          | Gets or sets indicators' horizontal alignment. Overrides `indicatorPosition` property. |
-| `indicatorPosition`             | String *(default: "bottom")*      | Gets or sets indicators' position.       |
-| `indicatorSize`                 | Float *(default: 8)*              | Gets or sets indicators' size.           |
-| `indicatorVerticalAlignment`    | String *(default: null)*          | Gets or sets indicators' vertical alignment. Overrides `indicatorPosition` property. |
-| `orientation`                   | String (*default: "horizontal")*  | Gets or sets the slider orientation. Can be either "horizontal" or "vertical". |
-| `scrollPosition`                | Float *(read-only)*               | Gets the current scroll position.        |
-| `slidesCount`                   | Integer *(read-only)*             | Gets the total amount of slides.         |
+| Property                        | Type                                | Description                              |
+| ------------------------------- | ----------------------------------- | :--------------------------------------- |
+| `bounce`                        | Boolean *(default: false)*          | Gets or sets scroll bouncing effect.     |
+| `currentSlide`                  | View`<NASliderSlide>` *(read-only)* | Gets the current slide view.             |
+| `currentSlideIndex`             | Integer *(read-only)*               | Gets the current slide index.            |
+| `forceFirstIndicatorVisibility` | Boolean *(default: false)*          | Gets or sets the visibility of the first indicator if there is only one slide available. |
+| `showIndicators`                | Boolean *(default: true)*           | Gets or sets the indicators' visibility. |
+| `indicatorBorderColor`          | String *(default: "#404040")*       | Gets or sets indicators' border color.   |
+| `indicatorBorderWidth`          | Float *(default: 0)*                | Gets or sets indicators' border width.   |
+| `indicatorHorizontalAlignment`  | String *(default: null)*            | Gets or sets indicators' horizontal alignment. Overrides `indicatorPosition` property. |
+| `indicatorPosition`             | String *(default: "bottom")*        | Gets or sets indicators' position.       |
+| `indicatorSize`                 | Float *(default: 8)*                | Gets or sets indicators' size.           |
+| `indicatorVerticalAlignment`    | String *(default: null)*            | Gets or sets indicators' vertical alignment. Overrides `indicatorPosition` property. |
+| `orientation`                   | String (*default: "horizontal")*    | Gets or sets the slider orientation. Can be either "horizontal" or "vertical". |
+| `scrollPosition`                | Float *(read-only)*                 | Gets the current scroll position.        |
+| `slidesCount`                   | Integer *(read-only)*               | Gets the total amount of slides.         |
 
-#### <NASliderSlide>
+#### `<NASliderSlide>`
 
 | Property               | Type                         | Description                              |
 | ---------------------- | ---------------------------- | ---------------------------------------- |
@@ -99,7 +99,7 @@ Insert new slide with optional properties. Returns a *Promise* with the new slid
 
 | Parameter | Type                | Description                  |
 | --------- | ------------------- | ---------------------------- |
-| `view`    | <View>              | The view to insert as slide. |
+| `view`    | `<View>`            | The view to insert as slide. |
 | `props`   | Object *(optional)* | Optional properties.         |
 
 ##### `props`
@@ -118,9 +118,9 @@ Insert new slide with optional properties. Returns a *Promise* with the new slid
 
 Remove the specified slide. Returns a *Promise*.
 
-| Parameter | Type            | Description          |
-| --------- | --------------- | -------------------- |
-| `slide`   | <NASliderSlide> | The slide to remove. |
+| Parameter | Type              | Description          |
+| --------- | ----------------- | -------------------- |
+| `slide`   | `<NASliderSlide>` | The slide to remove. |
 
 ------
 
@@ -160,17 +160,17 @@ Fires when sliding.
 | Property         | Type   | Description                              |
 | ---------------- | ------ | ---------------------------------------- |
 | `eventName`      | String | Gets the name of the event.              |
-| `object`         | Object | Gets the <NASlider> instance.            |
-| `scrollPosition` | Float  | Gets the current scroll position. Will be either the horizontal or vertical position depending on orientation of the <NASlider> instance. |
+| `object`         | Object | Gets the `<NASlider>` instance.          |
+| `scrollPosition` | Float  | Gets the current scroll position. Will be either the horizontal or vertical position depending on orientation of the `<NASlider>` instance. |
 
 #### slideChange
 
-Fires when the <NASlider> instance has changed slide.
+Fires when the `<NASlider>` instance has changed slide.
 
 ##### Event data
 
-| Property    | Type            | Description                     |
-| ----------- | --------------- | ------------------------------- |
-| `eventName` | String          | Gets the name of the event.     |
-| `object`    | Object          | Gets the <NASlider> instance.   |
-| `slide`     | <NASliderSlide> | Gets the current visible slide. |
+| Property    | Type              | Description                     |
+| ----------- | ----------------- | ------------------------------- |
+| `eventName` | String            | Gets the name of the event.     |
+| `object`    | Object            | Gets the `<NASlider>` instance. |
+| `slide`     | `<NASliderSlide>` | Gets the current visible slide. |
