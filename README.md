@@ -122,16 +122,6 @@ Insert new slide with optional properties. Returns a *Promise* with the new slid
 
 ---------
 
-#### removeSlides
-
-`removeSlides(): Promise`
-
-Removes all slides. Returns a *Promise*.
-
-*Will not work if `<NASlider>` instance is maintained by a Repeater.*
-
-------
-
 #### removeSlide
 
 `removeSlide(slide: <NASliderSlide>): Promise`
@@ -141,6 +131,16 @@ Remove the specified slide. Returns a *Promise*.
 | Parameter | Type              | Description          |
 | --------- | ----------------- | -------------------- |
 | `slide`   | `<NASliderSlide>` | The slide to remove. |
+
+------
+
+#### removeSlides
+
+`removeSlides(): Promise`
+
+Removes all slides. Returns a *Promise*.
+
+*Will not work if `<NASlider>` instance is maintained by a Repeater.*
 
 ------
 
