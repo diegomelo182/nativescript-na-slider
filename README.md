@@ -14,17 +14,21 @@ Slides can be added statically inside the XML as below:
 
 ```xml
 <Page xmlns:NASlider="nativescript-na-slider">
+  
   <NASlider:NASlider id="slider">
-    <NASlider:NASliderSlide>
-      <Label text="Slide 1" />
-    </NASlider:NASliderSlide>
-    <NASlider:NASliderSlide>
-      <Label text="Slide 2" />
-    </NASlider:NASliderSlide>
-    <NASlider:NASliderSlide>
-      <Label text="Slide 3" />
-    </NASlider:NASliderSlide>
+    <NASlider:NASliderContainer>
+      <NASlider:NASliderSlide>
+        <Label text="Slide 1" />
+      </NASlider:NASliderSlide>
+      <NASlider:NASliderSlide>
+        <Label text="Slide 2" />
+      </NASlider:NASliderSlide>
+      <NASlider:NASliderSlide>
+        <Label text="Slide 3" />
+      </NASlider:NASliderSlide>
+    </NASlider:NASliderContainer>
   </NASlider:NASlider>
+  
 </Page>
 ```
 
@@ -34,20 +38,24 @@ For a more dynamic slider, a `<Repeater>` can be used:
 
 ```xml
 <Page xmlns:NASlider="nativescript-na-slider">
-  <Repeater items="{{ slides }}">
-    <Repeater.itemsLayout>
-      <NASlider:NASlider id="slider" />
-    </Repeater.itemsLayout>
-    <Repeater.itemTemplate>
-      <NASlider:NASliderSlide>
-        <Label text="{{ text }}" />
-      </NASlider:NASliderSlide>
-    </Repeater.itemTemplate>
-  </Repeater>
+  
+  <NASlider:NASlider items="{{ slides }}">
+    <Repeater>
+      <Repeater.itemsLayout>
+        <NASlider:NASliderContainer />
+      </Repeater.itemsLayout>
+      <Repeater.itemTemplate>
+        <NASlider:NASliderSlide>
+          <Label text="{{ text }}" />
+        </NASlider:NASliderSlide>
+      </Repeater.itemTemplate>
+    </Repeater>
+  </NASlider:NASlider>
+  
 </Page>
 ```
 
-This way, a slider can simply be set up with an `ObservableArray`. The `<NASlider>` will act as the Repeater's layout inside `<Repeater.itemsLayout>`, while an `<NASliderSlide>` becomes the wrapper of `<Repeater.itemTemplate>`.
+This way, a slider can simply be set up with an `ObservableArray`. The `<NASliderContainer>` will act as the Repeater's `itemsLayout`, while a `<NASliderSlide>` becomes the wrapper `itemTemplate` of the Repeater.
 
 ### Properties
 
@@ -62,6 +70,8 @@ This way, a slider can simply be set up with an `ObservableArray`. The `<NASlide
 | `showIndicators`                | Boolean *(default: true)*           | Gets or sets the indicators' visibility. |
 | `indicatorBorderColor`          | String *(default: "#404040")*       | Gets or sets indicators' border color.   |
 | `indicatorBorderWidth`          | Float *(default: 0)*                | Gets or sets indicators' border width.   |
+| `indicatorColor`                | String *(default: "808080")*        | Gets or sets the indicator color for all slides. |
+| `indicatorColorActive`          | String *(default: null)*            | Gets or sets the indicator color for all slides when active (current visible slide). |
 | `indicatorHorizontalAlignment`  | String *(default: null)*            | Gets or sets indicators' horizontal alignment. Overrides `indicatorPosition` property. |
 | `indicatorPosition`             | String *(default: "bottom")*        | Gets or sets indicators' position.       |
 | `indicatorSize`                 | Float *(default: 8)*                | Gets or sets indicators' size.           |
@@ -72,10 +82,10 @@ This way, a slider can simply be set up with an `ObservableArray`. The `<NASlide
 
 #### `<NASliderSlide>`
 
-| Property               | Type                         | Description                              |
-| ---------------------- | ---------------------------- | ---------------------------------------- |
-| `indicatorColor`       | String *(default: "808080")* | Gets or sets the indicator color for specific slide. |
-| `indicatorColorActive` | String *(default: null)*     | Gets or sets the indicator color for specific slide when active (current visible slide). |
+| Property               | Type                     | Description                              |
+| ---------------------- | ------------------------ | ---------------------------------------- |
+| `indicatorColor`       | String *(default: null)* | Gets or sets the indicator color for specific slide. |
+| `indicatorColorActive` | String *(default: null)* | Gets or sets the indicator color for specific slide when active (current visible slide). |
 
 ### Methods
 
@@ -112,9 +122,9 @@ Insert new slide with optional properties. Returns a *Promise* with the new slid
 
 ---------
 
-#### removeAllSlides
+#### removeSlides
 
-`removeAllSlides(): Promise`
+`removeSlides(): Promise`
 
 Removes all slides. Returns a *Promise*.
 
@@ -192,6 +202,11 @@ Fired when the `<NASlider>` instance has changed slide.
 - No Android compatibility, yet.
 
 ## History
+
+### Version 1.1.0 (February 7, 2017)
+
+- `removeAllSlides` method has been renamed to `removeSlides`.
+- Fixed Repeater not working as expected. Check documentation for the new way to use `<NASlider>`.
 
 ### Version 1.0.2 (February 6, 2017)
 

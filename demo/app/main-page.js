@@ -24,7 +24,7 @@ exports.navigatingTo = function(args) {
 
   setTimeout(function() {
     pageData.sliderItems.push(new Observable({
-      text: "Slide 4 (pushed)",
+      text: "Slide " + (pageData.sliderItems.length+1) +" (pushed)",
       indicatorColor: "#239790",
       indicatorColorActive: "#2493c6"
     }));

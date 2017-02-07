@@ -6,41 +6,45 @@
 
     <Label row="0" text="XML Slider" class="title" />
     <NASlider:NASlider row="0" id="slider1">
-      <NASlider:NASliderSlide>
-        <StackLayout horizontalAlignment="center" verticalAlignment="center">
-          <Label text="Slide 1" />
-          <Button text="Scroll to last slide" tap="scrollToSlide" />
-        </StackLayout>
-      </NASlider:NASliderSlide>
+      <NASlider:NASliderContainer>
+        <NASlider:NASliderSlide>
+          <StackLayout horizontalAlignment="center" verticalAlignment="center">
+            <Label text="Slide 1" />
+            <Button text="Scroll to last slide" tap="scrollToSlide" />
+          </StackLayout>
+        </NASlider:NASliderSlide>
 
-      <NASlider:NASliderSlide>
-        <StackLayout horizontalAlignment="center" verticalAlignment="center">
-          <Label text="Slide 2" />
-          <Button text="Insert slide" tap="insertSlide" />
-        </StackLayout>
-      </NASlider:NASliderSlide>
+        <NASlider:NASliderSlide>
+          <StackLayout horizontalAlignment="center" verticalAlignment="center">
+            <Label text="Slide 2" />
+            <Button text="Insert slide" tap="insertSlide" />
+          </StackLayout>
+        </NASlider:NASliderSlide>
 
-      <NASlider:NASliderSlide>
-        <StackLayout horizontalAlignment="center" verticalAlignment="center">
-          <Label text="Slide 3" />
-          <Button text="Remove slide" tap="removeSlide" />
-        </StackLayout>
-      </NASlider:NASliderSlide>
+        <NASlider:NASliderSlide>
+          <StackLayout horizontalAlignment="center" verticalAlignment="center">
+            <Label text="Slide 3" />
+            <Button text="Remove slide" tap="removeSlide" />
+          </StackLayout>
+        </NASlider:NASliderSlide>
+      </NASlider:NASliderContainer>
     </NASlider:NASlider>
 
     <StackLayout row="1" style="width: 100%; height: 1; background-color: #cccccc;" />
 
     <Label row="2" text="Repeater Slider" class="title" />
-    <Repeater row="2" items="{{ sliderItems }}">
-      <Repeater.itemsLayout>
-        <NASlider:NASlider id="slider2" />
-      </Repeater.itemsLayout>
-      <Repeater.itemTemplate>
-        <NASlider:NASliderSlide indicatorColor="{{ indicatorColor }}" indicatorColorActive="{{ indicatorColorActive }}">
-          <Label text="{{ text }}" horizontalAlignment="center" />
-        </NASlider:NASliderSlide>
-      </Repeater.itemTemplate>
-    </Repeater>
+    <NASlider:NASlider row="2" id="slider2" items="{{ sliderItems }}">
+      <Repeater>
+        <Repeater.itemsLayout>
+          <NASlider:NASliderContainer />
+        </Repeater.itemsLayout>
+        <Repeater.itemTemplate>
+          <NASlider:NASliderSlide indicatorColor="{{ indicatorColor }}" indicatorColorActive="{{ indicatorColorActive }}">
+            <Label text="{{ text }}" horizontalAlignment="center" />
+          </NASlider:NASliderSlide>
+        </Repeater.itemTemplate>
+      </Repeater>
+    </NASlider:NASlider>
     
   </GridLayout>
   
