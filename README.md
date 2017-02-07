@@ -134,16 +134,6 @@ Remove the specified slide. Returns a *Promise*.
 
 ------
 
-#### removeSlides
-
-`removeSlides(): Promise`
-
-Removes all slides. Returns a *Promise*.
-
-*Will not work if `<NASlider>` instance is maintained by a Repeater.*
-
-------
-
 #### removeSlideAt
 
 `removeSlideAt(index : integer): Promise`
@@ -153,6 +143,16 @@ Remove slide at specified index. Returns a *Promise*.
 | Parameter | Type    | Description                              |
 | --------- | ------- | ---------------------------------------- |
 | `index`   | Integer | The index position of the slide to remove. |
+
+------
+
+#### removeSlides
+
+`removeSlides(): Promise`
+
+Removes all slides. Returns a *Promise*.
+
+*Will not work if `<NASlider>` instance is maintained by a Repeater.*
 
 ------
 
