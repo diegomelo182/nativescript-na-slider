@@ -2,6 +2,7 @@
 var gridLayoutModule = require("ui/layouts/grid-layout");
 var StackLayout = require("ui/layouts/stack-layout").StackLayout;
 var ScrollView = require("ui/scroll-view").ScrollView;
+var utils = require("utils/utils");
 
 
 var NASliderModule = {};
@@ -133,6 +134,7 @@ NASliderModule.NASlider = (function(_super) {
     _super.prototype.onLoaded.call(this);
     var _this = this;
     var hasRepeater = _this._hasRepeater = _this.getChildAt(1).typeName === "Repeater" ? true : false;
+    var repeater = hasRepeater ? _this.getChildAt(1) : null;
 
     var scrollView = _this._scrollView;
     scrollView.orientation = _this.orientation;
@@ -143,7 +145,6 @@ NASliderModule.NASlider = (function(_super) {
     scrollView.ios.bounces = _this.bounces;
 
     if(hasRepeater) {
-      let repeater = _this.getChildAt(1);
       _this._slidesContainer = repeater.itemsLayout;
       repeater.parent.removeChild(repeater);
       if(repeater.items || !_this.items) {
@@ -344,6 +345,7 @@ NASliderModule.NASlider = (function(_super) {
     var _this = this;
 
     var scrollView = _this._scrollView;
+    scrollView.width = scrollView.height = "100%";
     _this.addChild(scrollView);
   };
 
@@ -369,12 +371,14 @@ NASliderModule.NASliderContainer = (function(_super) {
     _super.prototype.onLayout.call(this, left, top, right, bottom);
     var _this = this;
     var slider = _this._getSlider();
+    var scrollView = slider.getChildAt(0);
 
     if(slider._initialized) {
       setTimeout(function() {
         slider._slides.length = 0;
         slider._slidesContainer._eachChildView(function(slide) {
           slider._slides.push(slide);
+          slide._refreshLayout();
         });
         slider._refreshIndicatorsState();
       }, 0);
@@ -473,10 +477,8 @@ NASliderModule.NASliderSlide = (function(_super) {
     _super.prototype.onLoaded.call(this);
     var _this = this;
     var slider = _this._getSlider();
-    var scrollView = slider.getChildAt(0);
 
-    _this.width = scrollView.getMeasuredWidth();
-    _this.height = scrollView.getMeasuredHeight();
+    _this._refreshLayout();
 
     if(!_this.indicatorColor || typeof _this.indicatorColor !== "string")
       _this.indicatorColor = slider.indicatorColor;
@@ -484,10 +486,30 @@ NASliderModule.NASliderSlide = (function(_super) {
       _this.indicatorColorActive = slider.indicatorColorActive || _this.indicatorColor;
   };
 
+  NASliderSlide.prototype.onLayout = function(left, top, right, bottom) {
+    _super.prototype.onLayout.call(this, left, top, right, bottom);
+    var _this = this;
+
+    setTimeout(function() { _this._refreshLayout(); }, 0);
+  };
+
   NASliderSlide.prototype._getSlider = function() {
     var slider = this.parent.parent;
     while(slider.typeName !== "NASlider") slider = slider.parent;
     return slider;
+  };
+
+  NASliderSlide.prototype._refreshLayout = function() {
+    var _this = this;
+    var slider = _this._getSlider();
+    var scrollView = slider.getChildAt(0);
+    var prefferedWidth = scrollView.getMeasuredWidth();
+    var prefferedHeight = scrollView.getMeasuredHeight();
+
+    if(_this.width !== prefferedWidth || _this.height !== prefferedHeight) {
+      _this.width = prefferedWidth;
+      _this.height = prefferedHeight;
+    }
   };
   
   return NASliderSlide;

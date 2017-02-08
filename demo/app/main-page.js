@@ -53,3 +53,9 @@ exports.removeSlide = function(args) {
   var slide = args.object.parent.parent;
   slider1.removeSlide(slide);
 };
+
+exports.changeWidth = function(args) {
+  var slide = args.object.parent.parent;
+  slider1.width = 200;
+  slider1.height = 200;
+};

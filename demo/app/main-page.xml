@@ -11,6 +11,7 @@
           <StackLayout horizontalAlignment="center" verticalAlignment="center">
             <Label text="Slide 1" />
             <Button text="Scroll to last slide" tap="scrollToSlide" />
+            <Button text="Change width" tap="changeWidth" />
           </StackLayout>
         </NASlider:NASliderSlide>
 

@@ -203,6 +203,11 @@ Fired when the `<NASlider>` instance has changed slide.
 
 ## History
 
+### Version 1.1.1 (February 8, 2017)
+
+- Stability improvements.
+- Slides should now dynamically adapt to slider's dimensions.
+
 ### Version 1.1.0 (February 7, 2017)
 
 - `removeAllSlides` method has been renamed to `removeSlides`.
