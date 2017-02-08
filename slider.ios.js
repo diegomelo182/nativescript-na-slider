@@ -38,6 +38,16 @@ NASliderModule.NASlider = (function(_super) {
     this._init();
   }
   
+  Object.defineProperty(NASlider.prototype, "items", {
+    get: function() { return this._getRepeater().items; },
+    set: function(value) {
+      var repeater = this._getRepeater();
+      if(repeater) repeater.items = value;
+        else console.error(new Error("Repeater inside NASlider requires items to be assigned to the NASlider itself."));
+    },
+    enumerable: true, configurable: true
+  });
+  
   Object.defineProperty(NASlider.prototype, "currentSlide", {
     get: function() { return this._slides[this.currentSlideIndex]; },
     enumerable: true, configurable: true
@@ -133,8 +143,8 @@ NASliderModule.NASlider = (function(_super) {
   NASlider.prototype.onLoaded = function() {
     _super.prototype.onLoaded.call(this);
     var _this = this;
-    var hasRepeater = _this._hasRepeater = _this.getChildAt(1).typeName === "Repeater" ? true : false;
-    var repeater = hasRepeater ? _this.getChildAt(1) : null;
+    var repeater = _this._getRepeater();
+    var hasRepeater = _this._hasRepeater = repeater ? true : false;
 
     var scrollView = _this._scrollView;
     scrollView.orientation = _this.orientation;
@@ -147,12 +157,7 @@ NASliderModule.NASlider = (function(_super) {
     if(hasRepeater) {
       _this._slidesContainer = repeater.itemsLayout;
       repeater.parent.removeChild(repeater);
-      if(repeater.items || !_this.items) {
-        console.error(new Error("Repeater inside NASlider requires items to be assigned to the NASlider itself."));
-        return;
-      }
       scrollView.content = repeater;
-      setTimeout(function() { repeater.items = _this.items; }, 0);
     } else {
       let slidesContainer = _this._slidesContainer = _this.getChildAt(1);
       slidesContainer.parent.removeChild(slidesContainer);
@@ -347,6 +352,12 @@ NASliderModule.NASlider = (function(_super) {
     var scrollView = _this._scrollView;
     scrollView.width = scrollView.height = "100%";
     _this.addChild(scrollView);
+  };
+
+  NASlider.prototype._getRepeater = function() {
+    var _this = this;
+    var repeater = _this.getChildAt(1).typeName === "Repeater" ? _this.getChildAt(1) : _this._scrollView.content;
+    return repeater || null;
   };
 
   return NASlider;

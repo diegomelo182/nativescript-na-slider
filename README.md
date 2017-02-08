@@ -203,7 +203,7 @@ Fired when the `<NASlider>` instance has changed slide.
 
 ## History
 
-### Version 1.1.1 (February 8, 2017)
+### Version 1.1.2 (February 8, 2017)
 
 - Stability improvements.
 - Slides should now dynamically adapt to slider's dimensions.
