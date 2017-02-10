@@ -62,7 +62,7 @@ This way, a slider can simply be set up with an `ObservableArray`. The `<NASlide
 #### `<NASlider>`
 
 | Property                        | Type                                | Description                              |
-| ------------------------------- | ----------------------------------- | :--------------------------------------- |
+| :------------------------------ | :---------------------------------- | :--------------------------------------- |
 | `bounce`                        | Boolean *(default: false)*          | Gets or sets scroll bouncing effect.     |
 | `currentSlide`                  | View`<NASliderSlide>` *(read-only)* | Gets the current slide view.             |
 | `currentSlideIndex`             | Integer *(read-only)*               | Gets the current slide index.            |
@@ -76,6 +76,7 @@ This way, a slider can simply be set up with an `ObservableArray`. The `<NASlide
 | `indicatorPosition`             | String *(default: "bottom")*        | Gets or sets indicators' position.       |
 | `indicatorSize`                 | Float *(default: 8)*                | Gets or sets indicators' size.           |
 | `indicatorVerticalAlignment`    | String *(default: null)*            | Gets or sets indicators' vertical alignment. Overrides `indicatorPosition` property. |
+| `items`                         | Array *(default: undefined)*        | Gets or sets the items array for a `<Repeater>`. |
 | `orientation`                   | String (*default: "horizontal")*    | Gets or sets the slider orientation. Can be either "horizontal" or "vertical". |
 | `scrollPosition`                | Float *(read-only)*                 | Gets the current scroll position.        |
 | `slidesCount`                   | Integer *(read-only)*               | Gets the total amount of slides.         |
@@ -83,7 +84,7 @@ This way, a slider can simply be set up with an `ObservableArray`. The `<NASlide
 #### `<NASliderSlide>`
 
 | Property               | Type                     | Description                              |
-| ---------------------- | ------------------------ | ---------------------------------------- |
+| :--------------------- | :----------------------- | :--------------------------------------- |
 | `indicatorColor`       | String *(default: null)* | Gets or sets the indicator color for specific slide. |
 | `indicatorColorActive` | String *(default: null)* | Gets or sets the indicator color for specific slide when active (current visible slide). |
 
@@ -96,7 +97,7 @@ This way, a slider can simply be set up with an `ObservableArray`. The `<NASlide
 Returns the slide at specified index.
 
 | Parameter | Type    | Description                              |
-| --------- | ------- | ---------------------------------------- |
+| :-------- | :------ | :--------------------------------------- |
 | `index`   | Integer | The index position of the slide to return. |
 
 ------
@@ -108,14 +109,14 @@ Returns the slide at specified index.
 Insert new slide with optional properties. Returns a *Promise* with the new slide.
 
 | Parameter | Type                | Description                  |
-| --------- | ------------------- | ---------------------------- |
+| :-------- | :------------------ | :--------------------------- |
 | `view`    | `<View>`            | The view to insert as slide. |
 | `props`   | Object *(optional)* | Optional properties.         |
 
 ##### `props`
 
 | Property               | Type                                    | Description                              |
-| ---------------------- | --------------------------------------- | ---------------------------------------- |
+| :--------------------- | :-------------------------------------- | :--------------------------------------- |
 | `atIndex`              | Integer *(default: `this.slidesCount`)* | Sets the index position. If not specified, the slide will become last. |
 | `indicatorColor`       | String *(default: null)*                | Sets the indicator color for specific slide. |
 | `indicatorColorActive` | String *(default: null)*                | Sets the indicator color for specific slide when active (current visible slide). |
@@ -129,7 +130,7 @@ Insert new slide with optional properties. Returns a *Promise* with the new slid
 Remove the specified slide. Returns a *Promise*.
 
 | Parameter | Type              | Description          |
-| --------- | ----------------- | -------------------- |
+| :-------- | :---------------- | :------------------- |
 | `slide`   | `<NASliderSlide>` | The slide to remove. |
 
 ------
@@ -141,7 +142,7 @@ Remove the specified slide. Returns a *Promise*.
 Remove slide at specified index. Returns a *Promise*.
 
 | Parameter | Type    | Description                              |
-| --------- | ------- | ---------------------------------------- |
+| :-------- | :------ | :--------------------------------------- |
 | `index`   | Integer | The index position of the slide to remove. |
 
 ------
@@ -163,7 +164,7 @@ Removes all slides. Returns a *Promise*.
 Scrolls to slide at specified index. Animated or not.
 
 | Parameter  | Type                       | Description                    |
-| ---------- | -------------------------- | ------------------------------ |
+| :--------- | :------------------------- | :----------------------------- |
 | `index`    | Integer                    | The slide to remove.           |
 | `animated` | Boolean *(default: false)* | Animates the scrolling effect. |
 
@@ -178,7 +179,7 @@ Fired when sliding.
 ##### Event data
 
 | Property         | Type   | Description                              |
-| ---------------- | ------ | ---------------------------------------- |
+| :--------------- | :----- | :--------------------------------------- |
 | `eventName`      | String | Gets the name of the event.              |
 | `object`         | Object | Gets the `<NASlider>` instance.          |
 | `scrollPosition` | Float  | Gets the current scroll position. Will be either the horizontal or vertical position depending on orientation of the `<NASlider>` instance. |
@@ -192,7 +193,7 @@ Fired when the `<NASlider>` instance has changed slide.
 ##### Event data
 
 | Property    | Type              | Description                     |
-| ----------- | ----------------- | ------------------------------- |
+| :---------- | :---------------- | :------------------------------ |
 | `eventName` | String            | Gets the name of the event.     |
 | `object`    | Object            | Gets the `<NASlider>` instance. |
 | `slide`     | `<NASliderSlide>` | Gets the current visible slide. |
@@ -202,6 +203,10 @@ Fired when the `<NASlider>` instance has changed slide.
 - No Android compatibility, yet.
 
 ## History
+
+### Version 1.1.3 (February 10, 2017)
+
+- Fixed crash when navigating within the frame's backstack.
 
 ### Version 1.1.2 (February 8, 2017)
 

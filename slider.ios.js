@@ -143,57 +143,60 @@ NASliderModule.NASlider = (function(_super) {
   NASlider.prototype.onLoaded = function() {
     _super.prototype.onLoaded.call(this);
     var _this = this;
-    var repeater = _this._getRepeater();
-    var hasRepeater = _this._hasRepeater = repeater ? true : false;
 
-    var scrollView = _this._scrollView;
-    scrollView.orientation = _this.orientation;
-    scrollView.on("scroll", function(e) { _this._onScrollEvent(e) });
-    scrollView.ios.showsHorizontalScrollIndicator = false;
-    scrollView.ios.showsVerticalScrollIndicator = false;
-    scrollView.ios.pagingEnabled = true;
-    scrollView.ios.bounces = _this.bounces;
+    if(!_this._initialized) {
+      var repeater = _this._getRepeater();
+      var hasRepeater = _this._hasRepeater = repeater ? true : false;
 
-    if(hasRepeater) {
-      _this._slidesContainer = repeater.itemsLayout;
-      repeater.parent.removeChild(repeater);
-      scrollView.content = repeater;
-    } else {
-      let slidesContainer = _this._slidesContainer = _this.getChildAt(1);
-      slidesContainer.parent.removeChild(slidesContainer);
-      scrollView.content = slidesContainer;
+      var scrollView = _this._scrollView;
+      scrollView.orientation = _this.orientation;
+      scrollView.on("scroll", function(e) { _this._onScrollEvent(e) });
+      scrollView.ios.showsHorizontalScrollIndicator = false;
+      scrollView.ios.showsVerticalScrollIndicator = false;
+      scrollView.ios.pagingEnabled = true;
+      scrollView.ios.bounces = _this.bounces;
+
+      if(hasRepeater) {
+        _this._slidesContainer = repeater.itemsLayout;
+        repeater.parent.removeChild(repeater);
+        scrollView.content = repeater;
+      } else {
+        let slidesContainer = _this._slidesContainer = _this.getChildAt(1);
+        slidesContainer.parent.removeChild(slidesContainer);
+        scrollView.content = slidesContainer;
+      }
+
+      var slidesContainer = _this._slidesContainer;
+      slidesContainer.orientation = _this.orientation;
+      slidesContainer._eachChildView(function(slide) {
+        _this._slides.push(slide);
+      });
+
+      // Configure indicators container
+      var indicatorsContainer = _this._indicatorsContainer;
+      indicatorsContainer.visibility = _this.showIndicators ? "visible" : "collapsed";
+      indicatorsContainer.isUserInteractionEnabled = false;
+      indicatorsContainer.margin = 4;
+      indicatorsContainer.orientation = (function(position) {
+        if(position === "top" || position === "bottom") return "horizontal";
+          else return "vertical";
+      })(_this.indicatorPosition);
+      indicatorsContainer.horizontalAlignment = (function(position) {
+        if(_this.indicatorHorizontalAlignment) return _this.indicatorHorizontalAlignment;
+        if(position === "left") return "left";
+          else if(position === "right") return "right";
+          else return "center";
+      })(_this.indicatorPosition);
+      indicatorsContainer.verticalAlignment = (function(position) {
+        if(_this.indicatorVerticalAlignment) return _this.indicatorVerticalAlignment;
+        if(position === "top") return "top";
+          else if(position === "bottom") return "bottom";
+          else return "center";
+      })(_this.indicatorPosition);
+      _this.addChild(indicatorsContainer);
+
+      _this._initialized = true;
     }
-
-    var slidesContainer = _this._slidesContainer;
-    slidesContainer.orientation = _this.orientation;
-    slidesContainer._eachChildView(function(slide) {
-      _this._slides.push(slide);
-    });
-
-    // Configure indicators container
-    var indicatorsContainer = _this._indicatorsContainer;
-    indicatorsContainer.visibility = _this.showIndicators ? "visible" : "collapsed";
-    indicatorsContainer.isUserInteractionEnabled = false;
-    indicatorsContainer.margin = 4;
-    indicatorsContainer.orientation = (function(position) {
-      if(position === "top" || position === "bottom") return "horizontal";
-        else return "vertical";
-    })(_this.indicatorPosition);
-    indicatorsContainer.horizontalAlignment = (function(position) {
-      if(_this.indicatorHorizontalAlignment) return _this.indicatorHorizontalAlignment;
-      if(position === "left") return "left";
-        else if(position === "right") return "right";
-        else return "center";
-    })(_this.indicatorPosition);
-    indicatorsContainer.verticalAlignment = (function(position) {
-      if(_this.indicatorVerticalAlignment) return _this.indicatorVerticalAlignment;
-      if(position === "top") return "top";
-        else if(position === "bottom") return "bottom";
-        else return "center";
-    })(_this.indicatorPosition);
-    _this.addChild(indicatorsContainer);
-
-    _this._initialized = true;
   };
 
   NASlider.prototype.insertSlide = function(view, props = {}) {
@@ -243,14 +246,17 @@ NASliderModule.NASlider = (function(_super) {
         let errorMessage = new Error("Slider instance is maintained by a Repeater. Use the items array instead.");
         console.error(errorMessage);
         reject(errorMessage);
+        return;
       } else if(slide.typeName !== "NASliderSlide") {
         let errorMessage = new Error("Slide must be of type NASliderSlide");
         console.error(errorMessage);
         reject(errorMessage);
+        return;
       } else if(slideIndex < 0) {
         let errorMessage = new Error("Slide does not exist inside NASlider instance");
         console.error(errorMessage);
         reject(errorMessage);
+        return;
       }
 
       let indicatorView = _this._indicatorsContainer.getChildAt(slideIndex);
