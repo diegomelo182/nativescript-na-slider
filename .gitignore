@@ -2,5 +2,6 @@
 demo/lib/
 demo/node_modules/
 demo/platforms/
+demo-tns2/
 .vscode/
 .DS_Store

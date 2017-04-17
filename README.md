@@ -204,6 +204,10 @@ Fired when the `<NASlider>` instance has changed slide.
 
 ## History
 
+### Version 2.0.0 (April #, 2017)
+
+- From now on, the plugin is only compatible with NativeScript 3.0.
+
 ### Version 1.1.3 (February 10, 2017)
 
 - Fixed crash when navigating within the frame's backstack.

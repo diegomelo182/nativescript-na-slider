@@ -1,11 +1,11 @@
 // MODULES
-var gridLayoutModule = require("ui/layouts/grid-layout");
-var StackLayout = require("ui/layouts/stack-layout").StackLayout;
-var ScrollView = require("ui/scroll-view").ScrollView;
-var utils = require("utils/utils");
+const gridLayoutModule = require("ui/layouts/grid-layout");
+const StackLayout = require("ui/layouts/stack-layout").StackLayout;
+const ScrollView = require("ui/scroll-view").ScrollView;
+const utils = require("utils/utils");
 
 
-var NASliderModule = {};
+const NASliderModule = {};
 
 // SLIDER
 NASliderModule.NASlider = (function(_super) {
@@ -168,7 +168,7 @@ NASliderModule.NASlider = (function(_super) {
 
       var slidesContainer = _this._slidesContainer;
       slidesContainer.orientation = _this.orientation;
-      slidesContainer._eachChildView(function(slide) {
+      slidesContainer.eachChildView(function(slide) {
         _this._slides.push(slide);
       });
 
@@ -393,7 +393,7 @@ NASliderModule.NASliderContainer = (function(_super) {
     if(slider._initialized) {
       setTimeout(function() {
         slider._slides.length = 0;
-        slider._slidesContainer._eachChildView(function(slide) {
+        slider._slidesContainer.eachChildView(function(slide) {
           slider._slides.push(slide);
           slide._refreshLayout();
         });
@@ -520,8 +520,8 @@ NASliderModule.NASliderSlide = (function(_super) {
     var _this = this;
     var slider = _this._getSlider();
     var scrollView = slider.getChildAt(0);
-    var prefferedWidth = scrollView.getMeasuredWidth();
-    var prefferedHeight = scrollView.getMeasuredHeight();
+    var prefferedWidth = scrollView.getMeasuredWidth() / 2;
+    var prefferedHeight = scrollView.getMeasuredHeight() / 2;
 
     if(_this.width !== prefferedWidth || _this.height !== prefferedHeight) {
       _this.width = prefferedWidth;

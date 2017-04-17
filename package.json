@@ -1,6 +1,6 @@
 {
   "name": "nativescript-na-slider",
-  "version": "1.1.3",
+  "version": "2.0.0",
   "description": "A NativeScript slider plugin",
   "main": "slider.js",
   "nativescript": {
@@ -35,6 +35,6 @@
   },
   "homepage": "https://github.com/nordlingart/nativescript-na-slider#readme",
   "dependencies": {
-    "tns-core-modules": "^2.5.0"
+    "tns-core-modules": "rc"
   }
 }
