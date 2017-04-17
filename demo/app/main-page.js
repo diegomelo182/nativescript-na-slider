@@ -1,30 +1,30 @@
 // MODULES
-var Observable = require("data/observable").Observable;
-var ObservableArray = require("data/observable-array").ObservableArray;
-var builder = require("ui/builder");
+const observable = require("data/observable");
+const ObservableArray = require("data/observable-array").ObservableArray;
+const builder = require("ui/builder");
 
-var slider1, slider2;
+let slider1, slider2;
 
-var page, pageData, createPageData = function() {
-  return new Observable({
+let page, pageData, createPageData = function() {
+  return observable.fromObject({
     sliderItems: new ObservableArray([
-      new Observable({ text: "Slide 1" }),
-      new Observable({ text: "Slide 2" }),
-      new Observable({ text: "Slide 3" })
+      observable.fromObject({ text: "Slide 1" }),
+      observable.fromObject({ text: "Slide 2" }),
+      observable.fromObject({ text: "Slide 3" })
     ])
   });
 };
 
-exports.navigatingTo = function(args) {
+exports.onNavigatingTo = function(args) {
   page = args.object;
   page.bindingContext = pageData = createPageData();
   
   slider1 = page.getViewById("slider1");
   slider2 = page.getViewById("slider2");
 
-  setTimeout(function() {
-    pageData.sliderItems.push(new Observable({
-      text: "Slide " + (pageData.sliderItems.length+1) +" (pushed)",
+  setTimeout(() => {
+    pageData.sliderItems.push(observable.fromObject({
+      text: `Slide ${pageData.sliderItems.length+1} (pushed)`,
       indicatorColor: "#239790",
       indicatorColorActive: "#2493c6"
     }));
@@ -32,16 +32,16 @@ exports.navigatingTo = function(args) {
 };
 
 exports.scrollToSlide = function(args) {
-  var lastSlideIndex = slider1.slidesCount-1;
+  const lastSlideIndex = slider1.slidesCount-1;
   slider1.scrollToSlideAt(lastSlideIndex, true);
 };
 
 exports.insertSlide = function(args) {
-  var newSlide = builder.parse(
-    '<StackLayout horizontalAlignment="center" verticalAlignment="center">' + 
-      '<Label text="Slide ' + (slider1.slidesCount+1) + ' (inserted)" />' +
-    '</StackLayout>'
-  );
+  const newSlide = builder.parse(`
+    <StackLayout horizontalAlignment="center" verticalAlignment="center"> 
+      <Label text="Slide ${slider1.slidesCount+1} (inserted)" />
+    </StackLayout>
+  `);
 
   slider1.insertSlide(newSlide, {
     indicatorColor: "#239790",
@@ -50,6 +50,6 @@ exports.insertSlide = function(args) {
 };
 
 exports.removeSlide = function(args) {
-  var slide = args.object.parent.parent;
+  const slide = args.object.parent.parent;
   slider1.removeSlide(slide);
 };

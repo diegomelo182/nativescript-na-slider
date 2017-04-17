@@ -1,5 +1,4 @@
-<Page navigatingTo="navigatingTo"
-      xmlns:lv="nativescript-telerik-ui/listview"
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo"
       xmlns:NASlider="nativescript-na-slider">
   
   <GridLayout rows="*, auto, *">
