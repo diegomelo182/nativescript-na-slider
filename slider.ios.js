@@ -11,39 +11,45 @@ const NASliderModule = {};
 NASliderModule.NASlider = (function(_super) {
   __extends(NASlider, _super);
   function NASlider() {
-    _super.call(this);
+    const _this = _super !== null && _super.apply(this, arguments) || this;
     
-    this._initialized = false;
-    this._hasRepeater = null;
-    this._currentSlideIndex = 0;
-    this._scrollView = new ScrollView();
-    this._slidesContainer = null;
-    this._slides = [];
-    this._slidePositions = [];
-    this._scrollPosition = 0;
-    this._orientation = "horizontal";
-    this._bounce = false;
-    this._forceFirstIndicatorVisibility = false;
-    this._showIndicators = true;
-    this._indicatorsContainer = new StackLayout();
-    this._indicatorSize = 8;
-    this._indicatorPosition = "bottom";
-    this._indicatorHorizontalAlignment = null;
-    this._indicatorVerticalAlignment = null;
-    this._indicatorColor = "#808080";
-    this._indicatorColorActive = null;
-    this._indicatorBorderWidth = 0;
-    this._indicatorBorderColor = "#404040";
+    _this._initialized = false;
+    _this._hasRepeater = null;
+    _this._currentSlideIndex = 0;
+    _this._scrollView = new ScrollView();
+    _this._slidesContainer = null;
+    _this._slides = [];
+    _this._slidePositions = [];
+    _this._scrollPosition = 0;
+    _this._orientation = "horizontal";
+    _this._bounce = false;
+    _this._forceFirstIndicatorVisibility = false;
+    _this._showIndicators = true;
+    _this._indicatorsContainer = new StackLayout();
+    _this._indicatorSize = 8;
+    _this._indicatorPosition = "bottom";
+    _this._indicatorHorizontalAlignment = null;
+    _this._indicatorVerticalAlignment = null;
+    _this._indicatorColor = "#808080";
+    _this._indicatorColorActive = null;
+    _this._indicatorBorderWidth = 0;
+    _this._indicatorBorderColor = "#404040";
 
-    this._init();
+    _this._init();
+
+    return _this;
   }
   
   Object.defineProperty(NASlider.prototype, "items", {
     get: function() { return this._getRepeater().items; },
     set: function(value) {
-      var repeater = this._getRepeater();
-      if(repeater) repeater.items = value;
-        else console.error(new Error("Repeater inside NASlider requires items to be assigned to the NASlider itself."));
+      const repeater = this._getRepeater();
+
+      if(repeater) {
+        repeater.items = value;
+      } else {
+        console.error(new Error("Repeater inside NASlider requires items to be assigned to the NASlider itself."));
+      }
     },
     enumerable: true, configurable: true
   });
@@ -142,161 +148,150 @@ NASliderModule.NASlider = (function(_super) {
 
   NASlider.prototype.onLoaded = function() {
     _super.prototype.onLoaded.call(this);
-    var _this = this;
 
-    if(!_this._initialized) {
-      var repeater = _this._getRepeater();
-      var hasRepeater = _this._hasRepeater = repeater ? true : false;
+    if(!this._initialized) {
+      const repeater = this._getRepeater();
+      const hasRepeater = this._hasRepeater = !!repeater;
+      const scrollView = this._scrollView;
 
-      var scrollView = _this._scrollView;
-      scrollView.orientation = _this.orientation;
-      scrollView.on("scroll", function(e) { _this._onScrollEvent(e) });
+      scrollView.orientation = this.orientation;
+      scrollView.on("scroll", e => this._onScrollEvent(e));
       scrollView.ios.showsHorizontalScrollIndicator = false;
       scrollView.ios.showsVerticalScrollIndicator = false;
       scrollView.ios.pagingEnabled = true;
-      scrollView.ios.bounces = _this.bounces;
+      scrollView.ios.bounces = this.bounces;
 
       if(hasRepeater) {
-        _this._slidesContainer = repeater.itemsLayout;
+        this._slidesContainer = repeater.itemsLayout;
         repeater.parent.removeChild(repeater);
         scrollView.content = repeater;
       } else {
-        let slidesContainer = _this._slidesContainer = _this.getChildAt(1);
+        const slidesContainer = this._slidesContainer = this.getChildAt(1);
         slidesContainer.parent.removeChild(slidesContainer);
         scrollView.content = slidesContainer;
       }
 
-      var slidesContainer = _this._slidesContainer;
-      slidesContainer.orientation = _this.orientation;
-      slidesContainer.eachChildView(function(slide) {
-        _this._slides.push(slide);
-      });
+      const slidesContainer = this._slidesContainer;
+      slidesContainer.orientation = this.orientation;
+      slidesContainer.eachChildView(slide => this._slides.push(slide));
 
       // Configure indicators container
-      var indicatorsContainer = _this._indicatorsContainer;
-      indicatorsContainer.visibility = _this.showIndicators ? "visible" : "collapsed";
+      const indicatorsContainer = this._indicatorsContainer;
+      indicatorsContainer.visibility = this.showIndicators ? "visible" : "collapsed";
       indicatorsContainer.isUserInteractionEnabled = false;
       indicatorsContainer.margin = 4;
-      indicatorsContainer.orientation = (function(position) {
+      indicatorsContainer.orientation = (position => {
         if(position === "top" || position === "bottom") return "horizontal";
           else return "vertical";
-      })(_this.indicatorPosition);
-      indicatorsContainer.horizontalAlignment = (function(position) {
-        if(_this.indicatorHorizontalAlignment) return _this.indicatorHorizontalAlignment;
+      })(this.indicatorPosition);
+      indicatorsContainer.horizontalAlignment = (position => {
+        if(this.indicatorHorizontalAlignment) return this.indicatorHorizontalAlignment;
         if(position === "left") return "left";
           else if(position === "right") return "right";
           else return "center";
-      })(_this.indicatorPosition);
-      indicatorsContainer.verticalAlignment = (function(position) {
-        if(_this.indicatorVerticalAlignment) return _this.indicatorVerticalAlignment;
+      })(this.indicatorPosition);
+      indicatorsContainer.verticalAlignment = (position => {
+        if(this.indicatorVerticalAlignment) return this.indicatorVerticalAlignment;
         if(position === "top") return "top";
           else if(position === "bottom") return "bottom";
           else return "center";
-      })(_this.indicatorPosition);
-      _this.addChild(indicatorsContainer);
+      })(this.indicatorPosition);
+      this.addChild(indicatorsContainer);
 
-      _this._initialized = true;
+      this._initialized = true;
     }
   };
 
   NASlider.prototype.insertSlide = function(view, props = {}) {
-    var _this = this;
-    var defaults = {
-      atIndex: _this.slidesCount,
+    const defaults = {
+      atIndex: this.slidesCount,
       indicatorColor: null,
       indicatorColorActive: null,
     };
-    for(var key in defaults) if(!props.hasOwnProperty(key)) props[key] = defaults[key];
+    for(let key in defaults) if(!props.hasOwnProperty(key)) props[key] = defaults[key];
 
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       // Create and insert slider view
-      var slide = new NASliderModule.NASliderSlide();
+      const slide = new NASliderModule.NASliderSlide();
       slide.addChild(view);
       if(props.indicatorColor) slide.indicatorColor = props.indicatorColor;
       if(props.indicatorColorActive) slide.indicatorColorActive = props.indicatorColorActive;
-      _this._slidePositions[props.atIndex] = slide.width * props.atIndex;
-      _this._slides.splice(props.atIndex, 0, slide);
-      _this._slidesContainer.insertChild(slide, props.atIndex);
+      this._slidePositions[props.atIndex] = slide.width * props.atIndex;
+      this._slides.splice(props.atIndex, 0, slide);
+      this._slidesContainer.insertChild(slide, props.atIndex);
 
       // Create indicator view
-      var indicatorView = _this._createIndicatorForView(slide);
-      _this._indicatorsContainer.insertChild(indicatorView, props.atIndex);
+      const indicatorView = this._createIndicatorForView(slide);
+      this._indicatorsContainer.insertChild(indicatorView, props.atIndex);
 
-      _this._refreshSlidesLayout();
-      _this._refreshIndicatorsState();
+      this._refreshSlidesLayout();
+      this._refreshIndicatorsState();
 
       resolve(slide);
     });
   };
 
   NASlider.prototype.scrollToSlideAt = function(index, animated = false) {
-    var _this = this;
-    var slidePosition = _this._slidePositions[index];
+    const slidePosition = this._slidePositions[index];
 
-    if(_this.orientation === "horizontal") _this._scrollView.scrollToHorizontalOffset(slidePosition, animated);
-      else _this._scrollView.scrollToVerticalOffset(slidePosition, animated);
+    if(this.orientation === "horizontal") {
+      this._scrollView.scrollToHorizontalOffset(slidePosition, animated);
+    } else {
+      this._scrollView.scrollToVerticalOffset(slidePosition, animated);
+    }
   };
 
   NASlider.prototype.removeSlide = function(slide) {
-    var _this = this;
-    var slideIndex = _this._slides.indexOf(slide);
+    const slideIndex = this._slides.indexOf(slide);
 
-    return new Promise(function(resolve, reject) {
-      if(_this._hasRepeater) {
-        let errorMessage = new Error("Slider instance is maintained by a Repeater. Use the items array instead.");
+    return new Promise((resolve, reject) => {
+      if(this._hasRepeater) {
+        const errorMessage = new Error("Slider instance is maintained by a Repeater. Use the items array instead.");
         console.error(errorMessage);
         reject(errorMessage);
         return;
       } else if(slide.typeName !== "NASliderSlide") {
-        let errorMessage = new Error("Slide must be of type NASliderSlide");
+        const errorMessage = new Error("Slide must be of type NASliderSlide");
         console.error(errorMessage);
         reject(errorMessage);
         return;
       } else if(slideIndex < 0) {
-        let errorMessage = new Error("Slide does not exist inside NASlider instance");
+        const errorMessage = new Error("Slide does not exist inside NASlider instance");
         console.error(errorMessage);
         reject(errorMessage);
         return;
       }
 
-      let indicatorView = _this._indicatorsContainer.getChildAt(slideIndex);
+      const indicatorView = this._indicatorsContainer.getChildAt(slideIndex);
       
-      _this._slides.splice(slideIndex, 1);
-      _this._slidesContainer.removeChild(slide);
-      _this._indicatorsContainer.removeChild(indicatorView);
-      _this._refreshIndicatorsState();
+      this._slides.splice(slideIndex, 1);
+      this._slidesContainer.removeChild(slide);
+      this._indicatorsContainer.removeChild(indicatorView);
+      this._refreshIndicatorsState();
 
-      _this.resolve(true);
+      this.resolve(true);
     });
   };
 
   NASlider.prototype.removeSlideAt = function(index) {
-    var _this = this;
-
-    return new Promise(function(resolve, reject) {
-      _this.removeSlide(_this.getSlideAt(index)).then(function() {
-        resolve(true);
-      });
+    return new Promise((resolve, reject) => {
+      this.removeSlide(this.getSlideAt(index)).then(() => resolve(true));
     });
   };
 
   NASlider.prototype.removeSlides = function() {
-    var _this = this;
-
-    return new Promise(function(resolve, reject) {
-      if(!_this._hasRepeater) {
-        let removePromises = [];
+    return new Promise((resolve, reject) => {
+      if(!this._hasRepeater) {
+        const removePromises = [];
         
-        while(_this._slides.length > 0) {
-          let slide = _this._slides[0];
-          removePromises.push(_this.removeSlide(slide));
+        while(this._slides.length > 0) {
+          const slide = this._slides[0];
+          removePromises.push(this.removeSlide(slide));
         }
 
-        Promise.all(removePromises).then(function() {
-          resolve(true);
-        });
+        Promise.all(removePromises).then(() => resolve(true));
       } else {
-        let errorMessage = new Error("Slider instance is maintained by a Repeater. Use the items array instead.");
+        const errorMessage = new Error("Slider instance is maintained by a Repeater. Use the items array instead.");
         console.error(errorMessage);
         reject(errorMessage);
       }
@@ -308,12 +303,11 @@ NASliderModule.NASlider = (function(_super) {
   };
 
   NASlider.prototype._createIndicatorForSlide = function(slide) {
-    var _this = this;
-    var indicatorView = new NASliderModule.NASliderIndicator();
+    const indicatorView = new NASliderModule.NASliderIndicator();
 
-    indicatorView.width = indicatorView.height = _this.indicatorSize;
-    indicatorView.borderWidth = _this.indicatorBorderWidth;
-    indicatorView.borderColor = _this.indicatorBorderColor;
+    indicatorView.width = indicatorView.height = this.indicatorSize;
+    indicatorView.borderWidth = this.indicatorBorderWidth;
+    indicatorView.borderColor = this.indicatorBorderColor;
     indicatorView.borderRadius = indicatorView.width / 2;
     indicatorView.setColor(slide.indicatorColor, slide.indicatorColorActive);
     
@@ -321,48 +315,44 @@ NASliderModule.NASlider = (function(_super) {
   };
 
   NASlider.prototype._refreshIndicatorsState = function(animated = false) {
-    var _this = this;
-    var currentSlideIndex = _this._currentSlideIndex;
-    var indicatorsContainer = _this._indicatorsContainer;
+    const currentSlideIndex = this._currentSlideIndex;
+    const indicatorsContainer = this._indicatorsContainer;
     
     indicatorsContainer.removeChildren();
-    _this._slidePositions.length = 0;
-    _this._slides.forEach(function(slide, index) {
-      let indicatorView = indicatorsContainer.getChildAt(index) || _this._createIndicatorForSlide(slide);
+    this._slidePositions.length = 0;
+    this._slides.forEach((slide, index) => {
+      const indicatorView = indicatorsContainer.getChildAt(index) || this._createIndicatorForSlide(slide);
+
       if(!indicatorView.parent) indicatorsContainer.addChild(indicatorView);
       indicatorView.setActive(index === currentSlideIndex, animated);
-      _this._slidePositions[index] = slide.width * index;
+      this._slidePositions[index] = slide.width * index;
     });
 
-    indicatorsContainer.visibility = !_this.showIndicators || _this._slides.length === 1 && !_this.forceFirstIndicatorVisibility ? "collapsed" : "visible";
+    indicatorsContainer.visibility = !this.showIndicators || this._slides.length === 1 && !this.forceFirstIndicatorVisibility ? "collapsed" : "visible";
   };
   
   NASlider.prototype._onScrollEvent = function(e) {
-    var _this = this;
-    var scrollPosition = _this.orientation === "horizontal" ? e.scrollX : e.scrollY;
-    var currentSlide = _this._slides[_this._slidePositions.indexOf(scrollPosition)] || null;
+    const scrollPosition = this.orientation === "horizontal" ? e.scrollX : e.scrollY;
+    const currentSlide = this._slides[this._slidePositions.indexOf(scrollPosition)] || null;
 
-    _this._scrollPosition = scrollPosition;
-    _this.notify({ eventName: "slide", object: _this, scrollPosition: scrollPosition });
+    this._scrollPosition = scrollPosition;
+    this.notify({ eventName: "slide", object: this, scrollPosition: scrollPosition });
 
-    if(currentSlide && currentSlide !== _this.currentSlide) {
-      _this._currentSlideIndex = _this._slides.indexOf(currentSlide);
-      _this._refreshIndicatorsState(true);
-      _this.notify({ eventName: "slideChange", object: _this, slide: currentSlide });
+    if(currentSlide && currentSlide !== this.currentSlide) {
+      this._currentSlideIndex = this._slides.indexOf(currentSlide);
+      this._refreshIndicatorsState(true);
+      this.notify({ eventName: "slideChange", object: this, slide: currentSlide });
     }
   };
 
   NASlider.prototype._init = function() {
-    var _this = this;
-
-    var scrollView = _this._scrollView;
+    const scrollView = this._scrollView;
     scrollView.width = scrollView.height = "100%";
-    _this.addChild(scrollView);
+    this.addChild(scrollView);
   };
 
   NASlider.prototype._getRepeater = function() {
-    var _this = this;
-    var repeater = _this.getChildAt(1).typeName === "Repeater" ? _this.getChildAt(1) : _this._scrollView.content;
+    const repeater = this.getChildAt(1).typeName === "Repeater" ? this.getChildAt(1) : this._scrollView.content;
     return repeater || null;
   };
 
@@ -373,37 +363,34 @@ NASliderModule.NASlider = (function(_super) {
 NASliderModule.NASliderContainer = (function(_super) {
   __extends(NASliderContainer, _super);
   function NASliderContainer() {
-    _super.call(this);
+    const _this = _super !== null && _super.apply(this, arguments) || this;
     
+    return _this;
   }
 
-  NASliderContainer.prototype.onLoaded = function() {
-    _super.prototype.onLoaded.call(this);
-    var _this = this;
-
-
-  };
+  // NASliderContainer.prototype.onLoaded = function() {
+  //   _super.prototype.onLoaded.call(this);
+  // };
 
   NASliderContainer.prototype.onLayout = function(left, top, right, bottom) {
     _super.prototype.onLayout.call(this, left, top, right, bottom);
-    var _this = this;
-    var slider = _this._getSlider();
-    var scrollView = slider.getChildAt(0);
+    const slider = this._getSlider();
+    const scrollView = slider.getChildAt(0);
 
     if(slider._initialized) {
-      setTimeout(function() {
+      setTimeout(() => {
         slider._slides.length = 0;
-        slider._slidesContainer.eachChildView(function(slide) {
+        slider._slidesContainer.eachChildView(slide => {
           slider._slides.push(slide);
           slide._refreshLayout();
         });
         slider._refreshIndicatorsState();
-      }, 0);
+      });
     }
   };
 
   NASliderContainer.prototype._getSlider = function() {
-    var slider = this.parent;
+    let slider = this.parent;
     while(slider.typeName !== "NASlider") slider = slider.parent;
     return slider;
   };
@@ -415,48 +402,47 @@ NASliderModule.NASliderContainer = (function(_super) {
 NASliderModule.NASliderIndicator = (function(_super) {
   __extends(NASliderIndicator, _super);
   function NASliderIndicator() {
-    _super.call(this);
+    const _this = _super !== null && _super.apply(this, arguments) || this;
     
-    this.opacity = 0.5;
+    _this.opacity = 0.5;
 
-    this._isActive = false;
-    this._inactiveView = new StackLayout();
-    this._activeView = new StackLayout();
+    _this._isActive = false;
+    _this._inactiveView = new StackLayout();
+    _this._activeView = new StackLayout();
     
-    this._init();
+    _this._init();
+
+    return _this;
   }
   
   NASliderIndicator.prototype._init = function() {
-    var _this = this;
+    this.margin = 4;
     
-    _this.margin = 4;
-    
-    var inactiveView = this._inactiveView;
+    const inactiveView = this._inactiveView;
     inactiveView.width = inactiveView.height = "100%";
-    _this.addChild(inactiveView);
+    this.addChild(inactiveView);
 
-    var activeView = this._activeView;
+    const activeView = this._activeView;
     activeView.width = activeView.height = inactiveView.width;
     activeView.opacity = 0;
-    _this.addChild(activeView);
+    this.addChild(activeView);
   };
 
   NASliderIndicator.prototype.setActive = function(value, animated = false) {
-    var _this = this;
-    var isActive = _this._isActive = value === true ? true : false;
-    var duration = 200;
-    var curve = "easeInOut";
+    const isActive = this._isActive = value === true ? true : false;
+    const duration = 200;
+    const curve = "easeInOut";
     
     if(animated) {
-      _this.animate({ opacity: isActive ? 1 : 0.5, duration: duration, curve: curve });
-      if(_this._inactiveView.backgroundColor !== _this._activeView.backgroundColor) {
-        _this._inactiveView.animate({ opacity: isActive ? 0 : 1, duration: duration, curve: curve });
-        _this._activeView.animate({ opacity: isActive ? 1 : 0, duration: duration, curve: curve });
+      this.animate({ opacity: isActive ? 1 : 0.5, duration: duration, curve: curve });
+      if(this._inactiveView.backgroundColor !== this._activeView.backgroundColor) {
+        this._inactiveView.animate({ opacity: isActive ? 0 : 1, duration: duration, curve: curve });
+        this._activeView.animate({ opacity: isActive ? 1 : 0, duration: duration, curve: curve });
       }
     } else {
-      _this.opacity = isActive ? 1 : 0.5;
-      _this._inactiveView.opacity = isActive ? 0 : 1;
-      _this._activeView.opacity = isActive ? 1 : 0;
+      this.opacity = isActive ? 1 : 0.5;
+      this._inactiveView.opacity = isActive ? 0 : 1;
+      this._activeView.opacity = isActive ? 1 : 0;
     }
   };
 
@@ -472,10 +458,12 @@ NASliderModule.NASliderIndicator = (function(_super) {
 NASliderModule.NASliderSlide = (function(_super) {
   __extends(NASliderSlide, _super);
   function NASliderSlide() {
-    _super.call(this);
+    const _this = _super !== null && _super.apply(this, arguments) || this;
     
-    this._indicatorColor = null;
-    this._indicatorColorActive = null;
+    _this._indicatorColor = null;
+    _this._indicatorColorActive = null;
+
+    return _this;
   }
 
   Object.defineProperty(NASliderSlide.prototype, "indicatorColor", {
@@ -492,40 +480,39 @@ NASliderModule.NASliderSlide = (function(_super) {
   
   NASliderSlide.prototype.onLoaded = function() {
     _super.prototype.onLoaded.call(this);
-    var _this = this;
-    var slider = _this._getSlider();
+    const slider = this._getSlider();
 
-    _this._refreshLayout();
+    this._refreshLayout();
 
-    if(!_this.indicatorColor || typeof _this.indicatorColor !== "string")
-      _this.indicatorColor = slider.indicatorColor;
-    if(!_this.indicatorColorActive || typeof _this.indicatorColorActive !== "string")
-      _this.indicatorColorActive = slider.indicatorColorActive || _this.indicatorColor;
+    if(!this.indicatorColor || typeof this.indicatorColor !== "string") {
+      this.indicatorColor = slider.indicatorColor;
+    }
+    if(!this.indicatorColorActive || typeof this.indicatorColorActive !== "string") {
+      this.indicatorColorActive = slider.indicatorColorActive || this.indicatorColor;
+    }
   };
 
   NASliderSlide.prototype.onLayout = function(left, top, right, bottom) {
     _super.prototype.onLayout.call(this, left, top, right, bottom);
-    var _this = this;
 
-    setTimeout(function() { _this._refreshLayout(); }, 0);
+    setTimeout(() => this._refreshLayout());
   };
 
   NASliderSlide.prototype._getSlider = function() {
-    var slider = this.parent.parent;
+    let slider = this.parent.parent;
     while(slider.typeName !== "NASlider") slider = slider.parent;
     return slider;
   };
 
   NASliderSlide.prototype._refreshLayout = function() {
-    var _this = this;
-    var slider = _this._getSlider();
-    var scrollView = slider.getChildAt(0);
-    var prefferedWidth = scrollView.getMeasuredWidth() / 2;
-    var prefferedHeight = scrollView.getMeasuredHeight() / 2;
+    const slider = this._getSlider();
+    const scrollView = slider.getChildAt(0);
+    const prefferedWidth = scrollView.getMeasuredWidth();
+    const prefferedHeight = scrollView.getMeasuredHeight();
 
-    if(_this.width !== prefferedWidth || _this.height !== prefferedHeight) {
-      _this.width = prefferedWidth;
-      _this.height = prefferedHeight;
+    if(this.width !== prefferedWidth || this.height !== prefferedHeight) {
+      this.width = getDIPs(prefferedWidth);
+      this.height = getDIPs(prefferedHeight);
     }
   };
   
@@ -533,3 +520,9 @@ NASliderModule.NASliderSlide = (function(_super) {
 })(gridLayoutModule.GridLayout);
 
 module.exports = NASliderModule;
+
+
+// INTERNAL FUNCTIONS
+function getDIPs(value) {
+  return utils.layout.toDeviceIndependentPixels(value);
+}
